@@ -20,16 +20,16 @@ public class MeniuController {
 
     @GetMapping
     public List<Produs> getMeniu() {
-        return produsService.getAllProducts();
+        return produsService.getAllProducts(); //
     }
 
     @GetMapping("/{id}")
     public Produs getProdus(@PathVariable Integer id) {
-        return produsService.getProductById(id);
+        return produsService.getProductById(id); //
     }
 
     @PostMapping("/aperitiv")
     public Produs adaugaAperitiv(@RequestBody Aperitiv aperitiv) {
-        return produsService.adaugaProdus(aperitiv);
+        return produsService.salveazaProdus(aperitiv); //
     }
 }

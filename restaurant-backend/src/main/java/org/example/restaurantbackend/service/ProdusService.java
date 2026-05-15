@@ -23,7 +23,7 @@ public class ProdusService {
         return produsRepository.findById(id).orElse(null);
     }
 
-    public Produs adaugaProdus(Produs produs) {
+    public Produs salveazaProdus(Produs produs) {
         return produsRepository.save(produs);
     }
 }
