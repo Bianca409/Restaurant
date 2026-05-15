@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adăugare Produs - La Bucătărie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/register.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-utensils"></i>
+            <span>La Bucătărie - Admin</span>
+        </div>
+        <div class="nav-links">
+            <a href="adaugare-angajat.html">Angajați Noi</a>
+            <a href="index.html">Deconectare</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa-solid fa-plate-wheat icon-title"></i>
+                <h2>Adăugare Produs Nou</h2>
+            </div>
+            
+            <form id="addProductForm">
+                <div class="input-group">
+                    <label for="categorie">Categorie Produs</label>
+                    <select id="categorie" name="categorie" required>
+                        <option value="APERITIV">Aperitiv</option>
+                        <option value="PRINCIPAL">Fel Principal</option>
+                        <option value="BAUTURA">Băutură</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="nume">Nume Produs</label>
+                    <input type="text" id="nume" name="nume" placeholder="ex: Supă Cremă de Roșii" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="pret">Preț (RON)</label>
+                    <input type="number" id="pret" name="pret" step="0.01" placeholder="0.00" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="ingrediente">Ingrediente (separate prin virgulă)</label>
+                    <input type="text" id="ingrediente" name="ingrediente" placeholder="roșii, busuioc, crutoane">
+                </div>
+
+                <div class="checkbox-container">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="vegetarian" name="vegetarian">
+                        <label for="vegetarian">Vegetarian</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="picant" name="picant">
+                        <label for="picant">Picant</label>
+                    </div>
+                    <div id="spirtoasa-div" class="checkbox-group" style="display: none;">
+                        <input type="checkbox" id="spirtoasa" name="spirtoasa">
+                        <label for="spirtoasa">Băutură Spirtoasă</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-submit">Salvează în Meniu</button>
+            </form>
+
+            <p id="mesajRaspuns" class="form-message"></p>
+        </div>
+    </main>
+
+    <script src="js/adaugare-produs.js"></script>
+</body>
+</html>

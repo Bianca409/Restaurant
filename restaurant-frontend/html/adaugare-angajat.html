@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adăugare Angajat - La Bucătărie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/register.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-utensils"></i>
+            <span>La Bucătărie - Admin</span>
+        </div>
+        <div class="nav-links">
+            <a href="adaugare-produs.html">Produse Noi</a>
+            <a href="index.html">Deconectare</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa-solid fa-user-tie icon-title"></i>
+                <h2>Adăugare Angajat</h2>
+            </div>
+            
+            <form id="addEmployeeForm">
+                <div class="input-group">
+                    <label for="tip">Tip Angajat</label>
+                    <select id="tip" name="tip" required style="padding: 12px; border-radius: 8px; border: 1px solid #cbd5e0;">
+                        <option value="PERSONAL">Personal Bucătărie</option>
+                        <option value="CHELNER">Chelner</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="ex: chelner_andrei" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="email@restaurant.com" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="parola">Parolă</label>
+                    <input type="password" id="parola" name="parola" placeholder="parolă angajat" required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Salvează Angajat</button>
+            </form>
+
+            <p id="mesajRaspuns" class="form-message"></p>
+        </div>
+    </main>
+
+    <script src="js/adaugare-angajat.js"></script>
+</body>
+</html>
