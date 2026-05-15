@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Înregistrare - La Bucătărie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/register.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-hat-chef"></i> <i class="fa-solid fa-utensils"></i>
+            <span>La Bucătărie</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Meniu</a>
+            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="login.html"><i class="fa-solid fa-arrow-right-to-bracket"></i> Autentificare</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa-solid fa-user-plus icon-title"></i>
+                <h2>Înregistrare</h2>
+            </div>
+            
+            <form id="registerForm">
+                <div class="input-group">
+                    <label for="username">Nume de utilizator</label>
+                    <input type="text" id="username" name="username" placeholder="ex: ion_popescu" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="email@exemplu.com" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="parola">Parolă</label>
+                    <input type="password" id="parola" name="parola" placeholder="parolă" required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Înregistrare</button>
+            </form>
+
+            <p id="mesajRaspuns" class="form-message"></p>
+
+            <div class="card-footer">
+                <p>Ai deja cont? <a href="login.html">Autentifică-te aici.</a></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/register.js"></script>
+</body>
+</html>
