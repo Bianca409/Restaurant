@@ -6,6 +6,7 @@ import org.example.restaurantbackend.service.ProdusService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/meniu")
@@ -19,17 +20,17 @@ public class MeniuController {
     }
 
     @GetMapping
-    public List<Produs> getMeniu() {
-        return produsService.getAllProducts(); //
+    public Map<String, List<Produs>> getMeniu() {
+        return produsService.getMeniuGrupat();
     }
 
     @GetMapping("/{id}")
     public Produs getProdus(@PathVariable Integer id) {
-        return produsService.getProductById(id); //
+        return produsService.getProductById(id);
     }
 
     @PostMapping("/aperitiv")
     public Produs adaugaAperitiv(@RequestBody Aperitiv aperitiv) {
-        return produsService.salveazaProdus(aperitiv); //
+        return produsService.salveazaProdus(aperitiv);
     }
 }
