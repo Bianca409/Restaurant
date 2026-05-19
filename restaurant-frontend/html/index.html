@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meniu - La Bucătărie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/meniu.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        <i class="fa-solid fa-hat-chef"></i> <i class="fa-solid fa-utensils"></i>
+        <span>La Bucătărie</span>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Meniu</a>
+        <a href="cos.html"><i class="fa-solid fa-cart-shopping"></i></a>
+        <a href="login.html"><i class="fa-solid fa-arrow-right-to-bracket"></i> Autentificare</a>
+    </div>
+</nav>
+
+<main class="container-meniu">
+
+    <section id="categorii-view">
+        <h2 class="section-title">Meniul Nostru</h2>
+        <div class="categorii-grid">
+            <div class="categorie-card cat-aperitive" onclick="deschideCategorie('Aperitive')">
+                <i class="fa-solid fa-utensils"></i>
+                <h3>Aperitive</h3>
+                <p id="count-Aperitive">0 produse disponibile</p>
+            </div>
+            <div class="categorie-card cat-principale" onclick="deschideCategorie('Feluri Principale')">
+                <i class="fa-solid fa-chevron-right"></i>
+                <h3>Feluri Principale</h3>
+                <p id="count-Feluri-Principale">0 produse disponibile</p>
+            </div>
+            <div class="categorie-card cat-spirtoase" onclick="deschideCategorie('Bauturi Spirtoase')">
+                <i class="fa-solid fa-wine-glass"></i>
+                <h3>Băuturi Spirtoase</h3>
+                <p id="count-Bauturi-Spirtoase">0 produse disponibile</p>
+            </div>
+            <div class="categorie-card cat-nespirtoase" onclick="deschideCategorie('Bauturi Nespirtoase')">
+                <i class="fa-solid fa-glass-water"></i>
+                <h3>Băuturi Nespirtoase</h3>
+                <p id="count-Bauturi-Nespirtoase">0 produse disponibile</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="produse-view" style="display: none;">
+        <button class="btn-back" onclick="inapoiLaCategorii()">
+            <i class="fa-solid fa-chevron-left"></i> Înapoi la categorii
+        </button>
+        <h2 id="titlu-categorie" class="categorie-title">Nume Categorie</h2>
+
+        <div id="produse-grid" class="produse-grid">
+        </div>
+    </section>
+
+</main>
+
+<div id="detalii-modal" class="modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="inchideModal()"><i class="fa-solid fa-xmark"></i></button>
+        <h3 id="modal-titlu">Nume Produs</h3>
+        <div class="modal-body">
+            <p><strong>Ingrediente:</strong> <span id="modal-ingrediente">N/A</span></p>
+            <div id="modal-tags" class="tags-container">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/meniu.js"></script>
+</body>
+</html>
