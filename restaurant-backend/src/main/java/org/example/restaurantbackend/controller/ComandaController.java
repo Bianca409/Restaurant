@@ -2,16 +2,22 @@ package org.example.restaurantbackend.controller;
 
 import org.example.restaurantbackend.entity.Comanda;
 import org.example.restaurantbackend.entity.Chitanta;
+import org.example.restaurantbackend.entity.Cos;
+import org.example.restaurantbackend.entity.ItemCos;
 import org.example.restaurantbackend.entity.enums.MetodaPlata;
 import org.example.restaurantbackend.entity.enums.Status;
 import org.example.restaurantbackend.repository.ComandaRepository;
 import org.example.restaurantbackend.repository.ChitantaRepository;
+import org.example.restaurantbackend.repository.CosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/comenzi")
@@ -23,6 +29,49 @@ public class ComandaController {
 
     @Autowired
     private ChitantaRepository chitantaRepository;
+
+    @Autowired
+    private CosRepository cosRepository;
+
+    @PostMapping("/plaseaza")
+    public ResponseEntity<?> plaseazaComanda(@RequestBody Map<String, Integer> body) {
+        Integer cosId = body.get("cosId");
+        if (cosId == null) {
+            return ResponseEntity.badRequest().body("Eroare: ID-ul coșului lipsește!");
+        }
+
+        Optional<Cos> cosOpt = cosRepository.findById(cosId);
+        if (!cosOpt.isPresent() || cosOpt.get().getProduse().isEmpty()) {
+            return ResponseEntity.badRequest().body("Eroare: Coșul nu există sau este gol!");
+        }
+
+        Cos cos = cosOpt.get();
+        Comanda comanda = new Comanda();
+        comanda.setStatus(Status.IN_ASTEPTARE);
+        comanda.setTimpEstimat(0);
+
+        List<ItemCos> produseComanda = new ArrayList<>();
+        double pretTotal = 0;
+
+        for (ItemCos itemCos : cos.getProduse()) {
+            ItemCos itemNou = new ItemCos();
+            itemNou.setProdus(itemCos.getProdus());
+            itemNou.setCantitate(itemCos.getCantitate());
+            produseComanda.add(itemNou);
+
+            pretTotal += itemCos.getProdus().getPret() * itemCos.getCantitate();
+        }
+
+        comanda.setProduse(produseComanda);
+        comanda.setTotal(pretTotal);
+
+        Comanda comandaPlasata = comandaRepository.save(comanda);
+
+        cos.getProduse().clear();
+        cosRepository.save(cos);
+
+        return ResponseEntity.ok(comandaPlasata);
+    }
 
     @PutMapping("/{id}/status")
     public ResponseEntity<?> actualizeazaStatus(@PathVariable Integer id, @RequestBody Map<String, String> body) {
