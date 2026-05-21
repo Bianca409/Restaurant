@@ -52,7 +52,14 @@ public class AuthService {
                 response.put("username", utilizator.getUsername());
                 response.put("id", utilizator.getId());
 
-                response.put("rol", utilizator.getClass().getSimpleName().toUpperCase());
+                String rol = utilizator.getClass().getSimpleName().toUpperCase();
+                if (rol.contains("$$")) {
+                    rol = rol.substring(0, rol.indexOf("$$"));
+                }
+                if (rol.contains("$")) {
+                    rol = rol.substring(0, rol.indexOf("$"));
+                }
+                response.put("rol", rol);
                 return response;
             } else {
                 response.put("eroare", "Parola este incorectă!");
