@@ -24,4 +24,6 @@ public class Comanda {
     private int timpEstimat;
 
     private double total;
+
+    private Integer nrChitanta;
 }
