@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Chelner - La Bucătărie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <i class="fa-solid fa-utensils"></i>
+            <span>La Bucătărie - Chelner</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Meniu Restaurant</a>
+            <div class="user-info" id="navbar-user">
+                <i class="fa-solid fa-bell-concierge"></i>
+                <span id="user-display-name">Chelner</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <div>
+                <h1><i class="fa-solid fa-cash-register"></i> Gestiune Comenzi și Plăți</h1>
+                <p>Caută comenzi după ID pentru a încasa plățile clienților și urmărește comenzile active.</p>
+            </div>
+        </div>
+
+
+        <div class="dashboard-grid">
+            <!-- Left Side: Search & Payment + Active Orders -->
+            <div>
+                <!-- Search and Payment Section -->
+                <div class="dash-card">
+                    <h2><i class="fa-solid fa-magnifying-glass"></i> Caută și Încasează Comandă</h2>
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <input type="number" id="search-order-id" class="search-input" placeholder="Introduceți ID-ul comenzii..." min="1">
+                        <button class="btn btn-primary" onclick="cautaComanda()">
+                            <i class="fa-solid fa-search"></i> Caută
+                        </button>
+                    </div>
+
+                    <!-- Search Result Box -->
+                    <div id="search-result-box" style="display: none;">
+                        <div class="order-summary-box">
+                            <h3 style="color: #7b3100; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                                <span>Comanda #<span id="res-order-id">0</span></span>
+                                <span id="res-order-status" class="badge">Status</span>
+                            </h3>
+                            <p><strong>Produse comandate:</strong></p>
+                            <ul id="res-products-list" style="margin-left: 20px; margin-bottom: 12px; list-style-type: disc;">
+                                <!-- Dinamic list -->
+                            </ul>
+                            <p style="font-size: 16px;"><strong>Preț Total:</strong> <span id="res-total-price" style="color: #df7300; font-weight: 700;">0.00 lei</span></p>
+                            <p id="res-receipt-p" style="display: none;"><strong>Număr Chitanță:</strong> <span id="res-receipt-nr" class="badge badge-cash">#0</span></p>
+                        </div>
+
+                        <!-- Payment Processing Container -->
+                        <div id="payment-processing-box" style="margin-top: 15px; border-top: 1px solid #edf2f7; padding-top: 15px;">
+                            <h4 style="margin-bottom: 10px; color: #2d3748;"><i class="fa-solid fa-credit-card"></i> Alege metoda de plată:</h4>
+                            <div style="display: flex; gap: 20px; margin-bottom: 15px;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600;">
+                                    <input type="radio" name="payment-method" value="CASH" checked style="width: 18px; height: 18px; accent-color: #df7300;"> 
+                                    <i class="fa-solid fa-money-bill-wave" style="color: #16a34a;"></i> Cash (Numerar)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600;">
+                                    <input type="radio" name="payment-method" value="CARD" style="width: 18px; height: 18px; accent-color: #df7300;"> 
+                                    <i class="fa-solid fa-credit-card" style="color: #2563eb;"></i> Card (POS)
+                                </label>
+                            </div>
+                            <button class="btn btn-success" style="width: 100%; justify-content: center; padding: 12px; font-size: 15px;" onclick="proceseazaPlata()">
+                                <i class="fa-solid fa-circle-check"></i> Înregistrează Plata și Emite Chitanța
+                            </button>
+                        </div>
+
+                        <!-- Already Paid Banner -->
+                        <div id="already-paid-box" class="badge badge-served" style="display: none; width: 100%; justify-content: center; padding: 12px; font-size: 15px; text-transform: none; margin-top: 15px;">
+                            <i class="fa-solid fa-check-double"></i> Această comandă a fost deja achitată cu succes!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Kitchen Orders Table -->
+                <div class="dash-card">
+                    <h2><i class="fa-solid fa-spinner"></i> Comenzi Active în Preparare (Bucătărie)</h2>
+                    <div class="table-responsive">
+                        <table class="dash-table" id="waiter-active-orders-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Preparate</th>
+                                    <th>Total</th>
+                                    <th>Timp Estimat</th>
+                                    <th>Status</th>
+                                    <th style="text-align: center;">Acțiune</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: #a0aec0; padding: 30px;">
+                                        Se încarcă comenzile din bucătărie...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Profile Info & Help -->
+            <div>
+                <div class="dash-card">
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <i class="fa-solid fa-bell-concierge"></i>
+                        </div>
+                        <h3 class="profile-name" id="profile-username">Andrei Popescu</h3>
+                        <p class="profile-role" id="profile-role">Chelner Autorizat</p>
+                        <p id="profile-email" style="color: #718096; font-size: 14px; margin-bottom: 20px;">andrei.popescu@restaurant.com</p>
+
+                        <div class="profile-stat">
+                            <div class="stat-item">
+                                <h4 id="stat-active-waiter-count">0</h4>
+                                <p>Active în bucătărie</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-card" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #bbf7d0;">
+                    <h3 style="color: #166534; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-circle-question"></i> Ghid Rapid Chelner
+                    </h3>
+                    <ul style="font-size: 14px; color: #14532d; line-height: 1.6; padding-left: 20px; list-style-type: decimal;">
+                        <li>Verifică lista din stânga pentru a vedea ce comenzi sunt în bucătărie.</li>
+                        <li>Când clientul dorește să achite, folosește formularul de căutare introducând ID-ul comenzii.</li>
+                        <li>Selectează <strong>Cash</strong> sau <strong>Card</strong> și emite chitanța.</li>
+                        <li>După încasare, clientul primește chitanța și starea comenzii se actualizează automat.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-icon"></span>
+        <span id="toast-message">Mesaj notificare</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/dashboard-chelner.js"></script>
+</body>
+</html>

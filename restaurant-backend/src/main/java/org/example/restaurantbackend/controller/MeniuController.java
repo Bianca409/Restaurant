@@ -25,6 +25,11 @@ public class MeniuController {
         return produsService.getMeniuGrupat();
     }
 
+    @GetMapping("/toate")
+    public List<Produs> getToateProdusele() {
+        return produsService.getAllProducts();
+    }
+
     @GetMapping("/{id}")
     public Produs getProdus(@PathVariable Integer id) {
         return produsService.getProductById(id);

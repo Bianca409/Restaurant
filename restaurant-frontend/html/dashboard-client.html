@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Client - La Bucătărie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <i class="fa-solid fa-utensils"></i>
+            <span>La Bucătărie</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Meniu</a>
+            <a href="cos.html"><i class="fa-solid fa-cart-shopping"></i> Coș</a>
+            <div class="user-info" id="navbar-user">
+                <i class="fa-solid fa-user"></i>
+                <span id="user-display-name">Client</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <div>
+                <h1 id="welcome-message"><i class="fa-solid fa-circle-user"></i> Salutare, Client!</h1>
+                <p>Urmărește statusul comenzilor tale și vezi istoricul preparatelor savurate.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                <i class="fa-solid fa-plus"></i> Comandă Ceva Nou
+            </button>
+        </div>
+
+        <!-- Mock Login Banner if no user is set -->
+        <div id="mock-login-banner" class="dash-card" style="display: none; background: #ffedd5; border: 1px solid #fed7aa; color: #c2410c;">
+            <p><strong><i class="fa-solid fa-circle-info"></i> Mod Previzualizare:</strong> Nu ești autentificat. Am creat un cont temporar de <strong>Client</strong> pentru tine. (Autentificarea va fi disponibilă în curând prin colegii noștri!).</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Left side: Orders -->
+            <div>
+                <!-- Active Orders -->
+                <div class="dash-card">
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i> Comenzi Active</h2>
+                    <div class="table-responsive">
+                        <table class="dash-table" id="active-orders-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Preparate</th>
+                                    <th>Total</th>
+                                    <th>Timp Estimat</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: #a0aec0; padding: 30px;">
+                                        Nu ai nicio comandă activă în acest moment.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Order History -->
+                <div class="dash-card">
+                    <h2><i class="fa-solid fa-receipt"></i> Istoric Comenzi</h2>
+                    <div class="table-responsive">
+                        <table class="dash-table" id="history-orders-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Dată</th>
+                                    <th>Preparate</th>
+                                    <th>Total</th>
+                                    <th>Nr. Chitanță</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: #a0aec0; padding: 30px;">
+                                        Nu s-au găsit comenzi finalizate în istoric.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right side: Profile Info -->
+            <div>
+                <div class="dash-card">
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <i class="fa-solid fa-circle-user"></i>
+                        </div>
+                        <h3 class="profile-name" id="profile-username">Dragana Mihaela</h3>
+                        <p class="profile-role" id="profile-role">Client Fidel</p>
+                        <p id="profile-email" style="color: #718096; font-size: 14px; margin-bottom: 20px;">dragana.mihaela@client.com</p>
+                        
+                        <div class="profile-stat">
+                            <div class="stat-item">
+                                <h4 id="stat-active-count">0</h4>
+                                <p>Active</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4 id="stat-total-count">0</h4>
+                                <p>Total Comenzi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-card" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a;">
+                    <h3 style="color: #b45309; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-award"></i> Recomandarea Bucătarului
+                    </h3>
+                    <p style="font-size: 14px; color: #92400e; line-height: 1.5;">
+                        Încearcă noile noastre <strong>Bruschete cu pesto și somon</strong>! Proaspete și perfecte ca aperitiv.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-icon"></span>
+        <span id="toast-message">Mesaj notificare</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/dashboard-client.js"></script>
+</body>
+</html>

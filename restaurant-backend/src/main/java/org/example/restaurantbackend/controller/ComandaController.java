@@ -97,6 +97,13 @@ public class ComandaController {
         return ResponseEntity.ok(nefinalizate);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Comanda> getComanda(@PathVariable Integer id) {
+        return comandaRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PutMapping("/{id}/timp")
     public ResponseEntity<?> seteazaTimp(@PathVariable Integer id, @RequestBody Map<String, Object> body) {
         if (body == null || !body.containsKey("timp") || body.get("timp") == null) {

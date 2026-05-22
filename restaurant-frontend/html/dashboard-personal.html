@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Personal Bucătărie - La Bucătărie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <i class="fa-solid fa-utensils"></i>
+            <span>La Bucătărie - Personal</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Meniu Restaurant</a>
+            <div class="user-info" id="navbar-user">
+                <i class="fa-solid fa-bell-concierge"></i>
+                <span id="user-display-name">Personal Bucătărie</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <div>
+                <h1><i class="fa-solid fa-fire-burner"></i> Panou Preparare Mâncare</h1>
+                <p>Gestionează comenzile active primite de la clienți și actualizează disponibilitatea meniului.</p>
+            </div>
+            <div class="tab-container">
+                <button class="tab-btn active" id="tab-orders" onclick="switchTab('orders')">
+                    <i class="fa-solid fa-utensils"></i> Comenzi în Așteptare
+                </button>
+                <button class="tab-btn" id="tab-menu" onclick="switchTab('menu')">
+                    <i class="fa-solid fa-list-check"></i> Disponibilitate Meniu
+                </button>
+            </div>
+        </div>
+
+        <!-- Mock Login Banner if no user is set -->
+        <div id="mock-login-banner" class="dash-card" style="display: none; background: #ffedd5; border: 1px solid #fed7aa; color: #c2410c;">
+            <p><strong><i class="fa-solid fa-circle-info"></i> Mod Previzualizare:</strong> Autentificare automată ca <strong>Personal Bucătărie</strong>. (Pentru autentificare completă se folosește login-ul general).</p>
+        </div>
+
+        <!-- Orders Section -->
+        <section id="section-orders">
+            <div class="dash-card">
+                <h2><i class="fa-solid fa-spinner"></i> Comenzi Active (În Așteptare / În Preparare)</h2>
+                <div class="table-responsive">
+                    <table class="dash-table" id="kitchen-orders-table">
+                        <thead>
+                            <tr>
+                                <th>ID Comandă</th>
+                                <th>Preparate Solicitate</th>
+                                <th>Preț Total</th>
+                                <th>Timp Estimat (minute)</th>
+                                <th>Status</th>
+                                <th style="text-align: center;">Acțiuni Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #a0aec0; padding: 40px;">
+                                    Se încarcă comenzile...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="section-menu" style="display: none;">
+            <div class="dash-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">
+                    <h2 style="border: none; margin-bottom: 0; padding-bottom: 0;"><i class="fa-solid fa-sliders"></i> Disponibilitate Produse</h2>
+                    <div style="display: flex; gap: 10px; width: 300px;">
+                        <input type="text" id="menu-search" class="search-input" placeholder="Caută preparat..." onkeyup="filtreazaMeniu()">
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="dash-table" id="kitchen-menu-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Denumire Produs</th>
+                                <th>Categorie</th>
+                                <th>Preț</th>
+                                <th>Detalii specifice</th>
+                                <th style="text-align: center;">Disponibil în Meniu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #a0aec0; padding: 40px;">
+                                    Se încarcă produsele din meniu...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-icon"></span>
+        <span id="toast-message">Mesaj notificare</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/dashboard-personal.js"></script>
+</body>
+</html>
