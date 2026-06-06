@@ -62,4 +62,13 @@ public class ProdusService {
     public Produs salveazaProdus(Produs produs) {
         return produsRepository.save(produs);
     }
+
+    public boolean stergeProdus(Integer id) {
+        if (!produsRepository.existsById(id)) {
+            return false;
+        }
+
+        produsRepository.deleteById(id);
+        return true;
+    }
 }

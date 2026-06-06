@@ -1,61 +1,96 @@
-document
-.getElementById("loginForm")
-.addEventListener(
-"submit",
-async function(e){
+const API_BASE = 'http://localhost:8081';
 
-e.preventDefault();
+const loginForm = document.getElementById('loginForm');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const errorBox = document.getElementById('loginError');
+const loginButton = document.getElementById('loginButton');
+const togglePassword = document.getElementById('togglePassword');
 
-const email =
-document
-.getElementById("email")
-.value;
+const roleRoutes = {
+    MANAGER: 'dashboard-manager.html',
+    CHELNER: 'dashboard-chelner.html',
+    PERSONAL: 'dashboard-personal.html',
+    CLIENT: 'dashboard-client.html'
+};
 
-const password =
-document
-.getElementById("password")
-.value;
+togglePassword.addEventListener('click', () => {
+    const isPassword = passwordInput.type === 'password';
+    passwordInput.type = isPassword ? 'text' : 'password';
+    togglePassword.innerHTML = isPassword
+        ? '<i class="fa-solid fa-eye-slash"></i>'
+        : '<i class="fa-solid fa-eye"></i>';
+    togglePassword.setAttribute('aria-label', isPassword ? 'Ascunde parola' : 'Afiseaza parola');
+});
 
-const error =
-document
-.getElementById("error");
+loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-error.innerText="";
+    const username = usernameInput.value.trim();
+    const parola = passwordInput.value;
 
-try{
+    if (!username || !parola) {
+        showError('Completeaza username-ul si parola.');
+        return;
+    }
 
-        const response = await fetch("http://localhost:8081/api/auth/login", {
-            method: "POST",
+    setLoading(true);
+    showError('');
+
+    try {
+        const response = await fetch(`${API_BASE}/api/auth/login`, {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                username: email,
-                parola: password
-            })
+            body: JSON.stringify({ username, parola })
         });
 
-        const data = await response.json();
+        const data = await parseResponse(response);
 
-        if (response.ok) {
-            localStorage.setItem("currentUser", JSON.stringify(data));
-            
-            if (data.rol === "MANAGER") {
-                window.location.href = "adaugare-angajat.html";
-            } else if (data.rol === "CHELNER") {
-                window.location.href = "dashboard-chelner.html";
-            } else if (data.rol === "PERSONAL") {
-                window.location.href = "dashboard-personal.html";
-            } else if (data.rol === "CLIENT") {
-                window.location.href = "dashboard-client.html";
-            } else {
-                window.location.href = "index.html";
-            }
-        } else {
-            error.innerText = data.eroare || "Email/username sau parolă greșită";
+        if (!response.ok) {
+            throw new Error(data.eroare || data.message || 'Datele de autentificare sunt invalide.');
         }
-    } catch (err) {
-        console.error(err);
-        error.innerText = "Server indisponibil";
+
+        const role = String(data.rol || data.role || '').toUpperCase();
+        const route = roleRoutes[role];
+
+        if (!route) {
+            throw new Error('Rolul utilizatorului nu este configurat in frontend.');
+        }
+
+        localStorage.setItem('currentUser', JSON.stringify({
+            id: data.id,
+            username: data.username || username,
+            email: data.email || username,
+            role,
+            rol: role
+        }));
+
+        window.location.href = route;
+    } catch (error) {
+        showError(error.message || 'Server indisponibil.');
+    } finally {
+        setLoading(false);
     }
 });
+
+async function parseResponse(response) {
+    const contentType = response.headers.get('content-type') || '';
+
+    if (contentType.includes('application/json')) {
+        return response.json();
+    }
+
+    const text = await response.text();
+    return { message: text };
+}
+
+function showError(message) {
+    errorBox.textContent = message;
+}
+
+function setLoading(isLoading) {
+    loginButton.disabled = isLoading;
+    loginButton.querySelector('span').textContent = isLoading ? 'Se verifica...' : 'Login';
+}

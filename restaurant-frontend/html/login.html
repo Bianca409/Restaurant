@@ -1,293 +1,61 @@
 <!DOCTYPE html>
 <html lang="ro">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Restaurant Login</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
-
-body{
-
-height:100vh;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-background:
-linear-gradient(
-135deg,
-#141E30,
-#243B55
-);
-
-overflow:hidden;
-
-}
-
-.card{
-
-width:380px;
-
-padding:40px;
-
-background:
-rgba(255,255,255,0.08);
-
-backdrop-filter:blur(12px);
-
-border-radius:25px;
-
-box-shadow:
-
-0 8px 32px rgba(0,0,0,0.35);
-
-border:
-
-1px solid rgba(255,255,255,0.15);
-
-text-align:center;
-
-color:white;
-
-}
-
-.logo{
-
-font-size:45px;
-
-margin-bottom:10px;
-
-}
-
-h1{
-
-margin-bottom:8px;
-
-font-size:28px;
-
-}
-
-.subtitle{
-
-opacity:0.7;
-
-margin-bottom:30px;
-
-}
-
-.input-group{
-
-margin-bottom:20px;
-
-}
-
-input{
-
-width:100%;
-
-padding:15px;
-
-border:none;
-
-outline:none;
-
-border-radius:12px;
-
-background:
-
-rgba(255,255,255,0.12);
-
-color:white;
-
-font-size:15px;
-
-}
-
-input::placeholder{
-
-color:#d0d0d0;
-
-}
-
-button{
-
-width:100%;
-
-padding:15px;
-
-border:none;
-
-border-radius:12px;
-
-cursor:pointer;
-
-font-size:16px;
-
-font-weight:bold;
-
-background:
-
-linear-gradient(
-45deg,
-#ff9800,
-#ff5722
-);
-
-color:white;
-
-transition:0.25s;
-
-}
-
-button:hover{
-
-transform:translateY(-2px);
-
-box-shadow:
-
-0 5px 18px rgba(255,140,0,0.4);
-
-}
-
-#error{
-
-margin-top:15px;
-
-color:#ff7b7b;
-
-font-size:14px;
-
-}
-
-.footer{
-
-margin-top:20px;
-
-opacity:0.6;
-
-font-size:13px;
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - La Bucatarie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/manager.css">
 </head>
+<body class="login-page">
+    <section class="login-panel">
+        <div class="login-card">
+            <div class="login-brand">
+                <div class="brand-mark">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <div class="brand-copy">
+                    <strong>La Bucatarie</strong>
+                    <span>Restaurant management system</span>
+                </div>
+            </div>
 
-<body>
+            <h1>Autentificare</h1>
+            <p>Acces rapid pentru manager, personal, chelneri si clienti.</p>
 
-<div class="card">
+            <form id="loginForm" class="login-form">
+                <div class="field">
+                    <label for="username">Email sau username</label>
+                    <input id="username" type="text" autocomplete="username" required>
+                </div>
 
-<div class="logo">
-🍽️
-</div>
+                <div class="field">
+                    <label for="password">Parola</label>
+                    <div class="password-wrap">
+                        <input id="password" type="password" autocomplete="current-password" required>
+                        <button class="password-toggle" id="togglePassword" type="button" aria-label="Afiseaza parola">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
 
-<h1>Restaurant Login</h1>
+                <p class="login-error" id="loginError" role="alert"></p>
 
-<p class="subtitle">
-Management Platform
-</p>
+                <button class="btn btn-primary" id="loginButton" type="submit">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span>Login</span>
+                </button>
+            </form>
+        </div>
+    </section>
 
-<form id="loginForm">
+    <section class="login-aside" aria-hidden="true">
+        <div class="login-aside-content">
+            <h2>Comenzi, echipa si meniu intr-un singur loc.</h2>
+            <p>O interfata clara pentru ture aglomerate, decizii rapide si operatiuni fara frictiune.</p>
+        </div>
+    </section>
 
-<div class="input-group">
-
-<input
-type="email"
-id="email"
-placeholder="Email"
-required
->
-
-</div>
-
-<div class="input-group">
-
-<input
-type="password"
-id="password"
-placeholder="Parola"
-required
->
-
-</div>
-
-<button type="submit">
-
-Login
-
-</button>
-
-<p id="error"></p>
-
-</form>
-
-<div class="footer">
-
-Restaurant System © 2026
-
-</div>
-
-</div>
-
-<script>
-document.getElementById("loginForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const errorEl = document.getElementById("error");
-    
-    errorEl.innerText = "";
-    
-    try {
-        const response = await fetch("http://localhost:8081/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: email,
-                parola: password
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-            localStorage.setItem("currentUser", JSON.stringify(data));
-            
-            if (data.rol === "MANAGER") {
-                window.location.href = "adaugare-angajat.html";
-            } else if (data.rol === "CHELNER") {
-                window.location.href = "dashboard-chelner.html";
-            } else if (data.rol === "PERSONAL") {
-                window.location.href = "dashboard-personal.html";
-            } else if (data.rol === "CLIENT") {
-                window.location.href = "dashboard-client.html";
-            } else {
-                window.location.href = "index.html";
-            }
-        } else {
-            errorEl.innerText = data.eroare || "Email/username sau parolă greșită";
-        }
-    } catch (err) {
-        console.error(err);
-        errorEl.innerText = "Server indisponibil";
-    }
-});
-</script>
-
+    <script src="../js/login.js"></script>
 </body>
-
 </html>

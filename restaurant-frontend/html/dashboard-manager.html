@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Manager - La Bucatarie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/manager.css">
+</head>
+<body class="manager-app">
+    <aside class="manager-sidebar">
+        <div class="brand-block">
+            <div class="brand-mark">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <div class="brand-copy">
+                <strong>La Bucatarie</strong>
+                <span>Manager</span>
+            </div>
+        </div>
+
+        <nav class="side-nav" aria-label="Navigare manager">
+            <button class="side-tab active" type="button" data-section="employees">
+                <i class="fa-solid fa-users-gear"></i>
+                <span>Angajati</span>
+            </button>
+            <button class="side-tab" type="button" data-section="products">
+                <i class="fa-solid fa-plate-wheat"></i>
+                <span>Produse</span>
+            </button>
+            <a class="side-link" href="adaugare-angajat.html">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Angajat nou</span>
+            </a>
+            <a class="side-link" href="adaugare-produs.html">
+                <i class="fa-solid fa-square-plus"></i>
+                <span>Produs nou</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="side-link" href="index.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Meniu public</span>
+            </a>
+            <button class="logout-link" type="button" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Deconectare</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="manager-shell">
+        <header class="manager-topbar">
+            <div class="page-title">
+                <h1>Dashboard manager</h1>
+                <p>Control operational pentru echipa si meniu.</p>
+            </div>
+            <div class="manager-user">
+                <div class="user-avatar">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <span id="managerName">Manager</span>
+            </div>
+        </header>
+
+        <section class="metrics-grid" aria-label="Statistici">
+            <article class="metric-card">
+                <span><i class="fa-solid fa-users"></i>Angajati</span>
+                <strong id="statEmployees">0</strong>
+            </article>
+            <article class="metric-card">
+                <span><i class="fa-solid fa-bell-concierge"></i>Chelneri</span>
+                <strong id="statWaiters">0</strong>
+            </article>
+            <article class="metric-card">
+                <span><i class="fa-solid fa-bowl-food"></i>Produse</span>
+                <strong id="statProducts">0</strong>
+            </article>
+            <article class="metric-card">
+                <span><i class="fa-solid fa-circle-check"></i>Disponibile</span>
+                <strong id="statAvailable">0</strong>
+            </article>
+        </section>
+
+        <section class="manager-panel" id="employeesPanel">
+            <div class="panel-header">
+                <div class="panel-heading">
+                    <h2>Angajati</h2>
+                    <p>Lista curenta de personal si chelneri.</p>
+                </div>
+                <div class="panel-actions">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input id="employeeSearch" type="search" placeholder="Cauta angajat">
+                    </div>
+                    <button class="btn btn-secondary" type="button" id="refreshEmployeesBtn">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span>Refresh</span>
+                    </button>
+                    <a class="btn btn-primary" href="adaugare-angajat.html">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Adauga</span>
+                    </a>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table class="manager-table" id="employeesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Angajat</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th style="text-align: right;">Actiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-spinner"></i>
+                                    Se incarca angajatii...
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="manager-panel" id="productsPanel" hidden>
+            <div class="panel-header">
+                <div class="panel-heading">
+                    <h2>Produse</h2>
+                    <p>Meniu intern cu editare si stergere.</p>
+                </div>
+                <div class="panel-actions">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input id="productSearch" type="search" placeholder="Cauta produs">
+                    </div>
+                    <button class="btn btn-secondary" type="button" id="refreshProductsBtn">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span>Refresh</span>
+                    </button>
+                    <a class="btn btn-primary" href="adaugare-produs.html">
+                        <i class="fa-solid fa-square-plus"></i>
+                        <span>Adauga</span>
+                    </a>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table class="manager-table" id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Produs</th>
+                            <th>Categorie</th>
+                            <th>Pret</th>
+                            <th>Status</th>
+                            <th style="text-align: right;">Actiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-spinner"></i>
+                                    Se incarca produsele...
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="infoModal" hidden role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+        <div class="modal-dialog">
+            <div class="modal-head">
+                <h3 id="infoTitle">Detalii</h3>
+                <button class="icon-btn" type="button" data-modal-close="infoModal" aria-label="Inchide">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="infoBody"></div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" type="button" data-modal-close="infoModal">Inchide</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="productEditModal" hidden role="dialog" aria-modal="true" aria-labelledby="productEditTitle">
+        <div class="modal-dialog">
+            <form id="productEditForm">
+                <div class="modal-head">
+                    <h3 id="productEditTitle">Modifica produs</h3>
+                    <button class="icon-btn" type="button" data-modal-close="productEditModal" aria-label="Inchide">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editProductId">
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="editProductName">Nume produs</label>
+                            <input id="editProductName" type="text" required>
+                        </div>
+                        <div class="field">
+                            <label for="editProductPrice">Pret</label>
+                            <input id="editProductPrice" type="number" min="0" step="0.01" required>
+                        </div>
+                        <div class="field full">
+                            <label for="editProductIngredients">Ingrediente</label>
+                            <textarea id="editProductIngredients" placeholder="rosii, busuioc, mozzarella"></textarea>
+                        </div>
+                        <div class="field full">
+                            <div class="check-row">
+                                <label class="check-pill">
+                                    <input id="editProductAvailable" type="checkbox">
+                                    Disponibil
+                                </label>
+                                <label class="check-pill">
+                                    <input id="editProductVegetarian" type="checkbox">
+                                    Vegetarian
+                                </label>
+                                <label class="check-pill">
+                                    <input id="editProductSpicy" type="checkbox">
+                                    Picant
+                                </label>
+                                <label class="check-pill" id="editProductAlcoholWrap">
+                                    <input id="editProductAlcohol" type="checkbox">
+                                    Spirtoasa
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" type="button" data-modal-close="productEditModal">Anuleaza</button>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Salveaza
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="confirmModal" hidden role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+        <div class="modal-dialog">
+            <div class="modal-head">
+                <h3 id="confirmTitle">Confirmare</h3>
+                <button class="icon-btn" type="button" data-modal-close="confirmModal" aria-label="Inchide">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage"></p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" type="button" data-modal-close="confirmModal">Anuleaza</button>
+                <button class="btn btn-danger" type="button" id="confirmActionBtn">
+                    <i class="fa-solid fa-trash"></i>
+                    Sterge
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <i id="toastIcon" class="fa-solid fa-circle-info"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <script src="../js/dashboard-manager.js"></script>
+</body>
+</html>

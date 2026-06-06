@@ -4,11 +4,13 @@ import org.example.restaurantbackend.entity.*;
 import org.example.restaurantbackend.repository.UtilizatorRepository;
 import org.example.restaurantbackend.service.ProdusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +26,36 @@ public class ManagerController {
 
     @Autowired
     private UtilizatorRepository utilizatorRepository;
+
+    private Map<String, Object> produsResponse(Produs produs) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("id", produs.getId());
+        response.put("nume", produs.getNume());
+        response.put("pret", produs.getPret());
+        response.put("disponibil", produs.isDisponibil());
+        response.put("detalii", produs.getDetalii());
+
+        if (produs instanceof Bautura) {
+            response.put("categorie", "BAUTURA");
+            response.put("spirtoasa", ((Bautura) produs).isEsteSpirtoasa());
+        } else if (produs instanceof Aperitiv) {
+            response.put("categorie", "APERITIV");
+        } else if (produs instanceof FelPrincipal) {
+            response.put("categorie", "PRINCIPAL");
+        } else {
+            response.put("categorie", "PRODUS");
+        }
+
+        return response;
+    }
+
+    @GetMapping("/meniu")
+    public ResponseEntity<List<Map<String, Object>>> vizualizareProduse() {
+        List<Map<String, Object>> produse = produsService.getAllProducts().stream()
+                .map(this::produsResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(produse);
+    }
 
     @PostMapping("/meniu")
     public ResponseEntity<Produs> adaugaProdus(@RequestBody Map<String, Object> date) {
@@ -96,21 +128,40 @@ public class ManagerController {
         return "Personal".equalsIgnoreCase(name) || "Chelner".equalsIgnoreCase(name);
     }
 
+    private String rolUtilizator(Utilizator u) {
+        String name = u.getClass().getSimpleName();
+        if (name.contains("$")) {
+            name = name.substring(0, name.indexOf("$"));
+        }
+        return name.toUpperCase();
+    }
+
+    private Map<String, Object> angajatResponse(Utilizator u) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("id", u.getId());
+        response.put("username", u.getUsername());
+        response.put("email", u.getEmail());
+        response.put("rol", rolUtilizator(u));
+        return response;
+    }
+
     @GetMapping("/angajati")
-    public ResponseEntity<List<Utilizator>> vizualizareAngajati() {
+    public ResponseEntity<List<Map<String, Object>>> vizualizareAngajati() {
         List<Utilizator> toti = utilizatorRepository.findAll();
-        List<Utilizator> angajati = toti.stream()
+        List<Map<String, Object>> angajati = toti.stream()
                 .filter(this::esteAngajat)
+                .map(this::angajatResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(angajati);
     }
 
     @GetMapping("/angajati/{id}")
     public ResponseEntity<?> vizualizareAngajat(@PathVariable Integer id) {
-        return utilizatorRepository.findById(id)
-                .filter(this::esteAngajat)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Optional<Utilizator> uOpt = utilizatorRepository.findById(id);
+        if (uOpt.isPresent() && esteAngajat(uOpt.get())) {
+            return ResponseEntity.ok(angajatResponse(uOpt.get()));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/angajati/{id}")
@@ -176,5 +227,19 @@ public class ManagerController {
         produs.setDetalii(detalii);
         Produs produsSalvat = produsService.salveazaProdus(produs);
         return ResponseEntity.ok(produsSalvat);
+    }
+
+    @DeleteMapping("/meniu/{id}")
+    public ResponseEntity<?> stergeProdus(@PathVariable Integer id) {
+        try {
+            boolean sters = produsService.stergeProdus(id);
+            if (!sters) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok("Produsul a fost sters cu succes!");
+        } catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.status(409)
+                    .body("Produsul nu poate fi sters deoarece exista in comenzi sau cosuri active.");
+        }
     }
 }
