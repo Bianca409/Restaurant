@@ -10,8 +10,8 @@ Acest proiect este un sistem de management complet pentru un restaurant. Acesta 
 ## Structura Entităților
 Sistemul implementează diagrama de clase:
 * **Roluri:** Client, Manager, Personal, Chelner (moștenind abstractizarea `Utilizator`).
-* **Meniu:** Entitatea `Produs` integrând informații specifice (`DetaliiProdus`).
-* **Procesare:** `CosCumparaturi`, `Comanda`, `Plata`, `Chitanta`.
+* **Meniu:** Entitatea `Produs` integrând informații specifice (`Detalii`).
+* **Procesare:** `Cos`, `ItemCos`, `Comanda`, `Chitanta` (cu tipul de plată `MetodaPlata`).
 
 ## Instrucțiuni de Configurare (Setup)
 
@@ -39,7 +39,7 @@ CREATE DATABASE restaurant_db;
    spring.datasource.password=
    spring.jpa.hibernate.ddl-auto=update
    ```
-4. Rulați aplicația din clasa principală `RestaurantApplication.java`. Tabelele se vor genera automat în baza de date la prima pornire.
+4. Rulați aplicația din clasa principală `RestaurantBackendApplication.java`. Tabelele se vor genera automat în baza de date la prima pornire.
 
 ### 3. Date de Acces Inițiale (Manager)
 Pentru a testa modulele administrative, utilizați următorul cont predefinit:
@@ -50,6 +50,6 @@ Pentru a testa modulele administrative, utilizați următorul cont predefinit:
 Pentru a asigura comunicarea corectă cu API-ul (evitând erorile de securitate de tip CORS), **recomandăm insistent** rularea frontend-ului printr-un server local:
 1. Deschideți folderul de frontend în **VS Code**.
 2. Utilizați extensia **"Live Preview"** (apăsați "Go Live" în colțul dreapta-jos).
-3. Aplicația va fi accesibilă la o adresă de tip `http://127.0.0.1:5500` și va putea comunica fără probleme cu backend-ul pornit pe portul `8080`.
+3. Aplicația va fi accesibilă la o adresă de tip `http://127.0.0.1:5500` și va putea comunica fără probleme cu backend-ul pornit pe portul `8081`.
 
 *Notă: Dacă deschideți fișierul `index.html` direct în browser (file://...), este posibil ca anumite funcționalități de preluare a datelor să fie blocate de browser.*
