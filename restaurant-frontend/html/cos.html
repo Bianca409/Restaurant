@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cos - La Bucatarie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/manager.css">
+</head>
+<body class="manager-app">
+<aside class="manager-sidebar">
+    <div class="brand-block">
+        <div class="brand-mark">
+            <i class="fa-solid fa-utensils"></i>
+        </div>
+        <div class="brand-copy">
+            <strong>La Bucatarie</strong>
+            <span>Restaurant</span>
+        </div>
+    </div>
+
+    <nav class="side-nav">
+        <a class="side-link" href="index.html">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Meniu</span>
+        </a>
+        <a class="side-link active" href="cos.html">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Cosul meu</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a class="side-link" href="login.html">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <span>Autentificare</span>
+        </a>
+    </div>
+</aside>
+
+<main class="manager-shell">
+    <header class="manager-topbar">
+        <div class="page-title">
+            <h1>Cosul Tau</h1>
+            <p>Revizuieste si plaseaza comanda.</p>
+        </div>
+    </header>
+
+    <section class="manager-panel" style="margin-top: 22px;">
+        <div class="panel-header">
+            <div class="panel-heading">
+                <h2>Produse Adaugate</h2>
+            </div>
+        </div>
+        <div class="table-wrap">
+            <table class="manager-table">
+                <thead>
+                <tr>
+                    <th>Produs</th>
+                    <th>Pret Unitar</th>
+                    <th>Cantitate</th>
+                    <th>Subtotal</th>
+                    <th style="text-align: right;">Actiuni</th>
+                </tr>
+                </thead>
+                <tbody id="cart-items-container">
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-actions" id="cart-summary" style="padding: 18px; border-top: 1px solid var(--line); display: none; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span style="color: var(--muted); font-weight: 700;">TOTAL</span>
+                <strong style="font-size: 24px; color: var(--primary);" id="cart-total">0 lei</strong>
+            </div>
+            <button class="btn btn-primary" onclick="plaseazaComanda()">
+                <i class="fa-solid fa-check-to-slot"></i> Plaseaza Comanda
+            </button>
+        </div>
+    </section>
+</main>
+
+<script src="../js/cos.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+.container-cos {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.cos-title {
+    color: #9d4200;
+    font-size: 24px;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.item-nume {
+    font-weight: 700;
+    color: #2d3748;
+    font-size: 16px;
+}
+
+.item-pret {
+    color: #df7300;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.item-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-qty {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #cbd5e0;
+    background: #f8fafc;
+    color: #4a5568;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-qty:hover {
+    background: #e2e8f0;
+}
+
+.item-qty {
+    font-weight: 700;
+    font-size: 16px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.item-subtotal {
+    font-weight: 700;
+    color: #2d3748;
+    min-width: 60px;
+    text-align: right;
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    color: #e53e3e;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.btn-delete:hover {
+    color: #c53030;
+}
+
+.cart-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: 1px solid #fbd38d;
+    border-radius: 12px;
+    padding: 20px 25px;
+    box-shadow: 0 4px 6px rgba(223, 115, 0, 0.05);
+}
+
+.total-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #7b3100;
+}
+
+.btn-plaseaza {
+    background-color: #df7300;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-plaseaza:hover {
+    background-color: #c46500;
+}
+
+.cart-icon-container {
+    position: relative;
+    display: inline-block;
+}
+
+.badge {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background-color: #e53e3e;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+}

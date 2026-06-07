@@ -3,72 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meniu - La Bucătărie</title>
+    <title>Meniu - La Bucatarie</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/meniu.css">
+    <link rel="stylesheet" href="../css/manager.css">
+    <style>
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 10px;
+        }
+    </style>
 </head>
-<body>
-
-<nav class="navbar">
-    <div class="logo">
-        <i class="fa-solid fa-hat-chef"></i> <i class="fa-solid fa-utensils"></i>
-        <span>La Bucătărie</span>
-    </div>
-    <div class="nav-links">
-        <a href="index.html">Meniu</a>
-        <a href="cos.html"><i class="fa-solid fa-cart-shopping"></i></a>
-        <a href="login.html"><i class="fa-solid fa-arrow-right-to-bracket"></i> Autentificare</a>
-    </div>
-</nav>
-
-<main class="container-meniu">
-
-    <section id="categorii-view">
-        <h2 class="section-title">Meniul Nostru</h2>
-        <div class="categorii-grid">
-            <div class="categorie-card cat-aperitive" onclick="deschideCategorie('Aperitive')">
-                <i class="fa-solid fa-utensils"></i>
-                <h3>Aperitive</h3>
-                <p id="count-Aperitive">0 produse disponibile</p>
-            </div>
-            <div class="categorie-card cat-principale" onclick="deschideCategorie('Feluri Principale')">
-                <i class="fa-solid fa-chevron-right"></i>
-                <h3>Feluri Principale</h3>
-                <p id="count-Feluri-Principale">0 produse disponibile</p>
-            </div>
-            <div class="categorie-card cat-spirtoase" onclick="deschideCategorie('Bauturi Spirtoase')">
-                <i class="fa-solid fa-wine-glass"></i>
-                <h3>Băuturi Spirtoase</h3>
-                <p id="count-Bauturi-Spirtoase">0 produse disponibile</p>
-            </div>
-            <div class="categorie-card cat-nespirtoase" onclick="deschideCategorie('Bauturi Nespirtoase')">
-                <i class="fa-solid fa-glass-water"></i>
-                <h3>Băuturi Nespirtoase</h3>
-                <p id="count-Bauturi-Nespirtoase">0 produse disponibile</p>
-            </div>
+<body class="manager-app">
+<aside class="manager-sidebar">
+    <div class="brand-block">
+        <div class="brand-mark">
+            <i class="fa-solid fa-utensils"></i>
         </div>
+        <div class="brand-copy">
+            <strong>La Bucatarie</strong>
+            <span>Restaurant</span>
+        </div>
+    </div>
+
+    <nav class="side-nav">
+        <a class="side-link active" href="index.html">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Meniu</span>
+        </a>
+        <a class="side-link" href="cos.html">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Cosul meu</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a class="side-link" href="login.html">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <span>Autentificare</span>
+        </a>
+    </div>
+</aside>
+
+<main class="manager-shell">
+    <header class="manager-topbar">
+        <div class="page-title">
+            <h1>Meniul Nostru</h1>
+            <p>Alege categoria dorita si descopera preparatele.</p>
+        </div>
+        <div class="manager-user">
+            <a href="cos.html" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                <div class="user-avatar" style="background: var(--red-soft); color: var(--primary);">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <section id="categorii-view" class="metrics-grid">
+        <article class="metric-card" style="cursor: pointer;" onclick="deschideCategorie('Aperitive')">
+            <span><i class="fa-solid fa-utensils"></i> Categorie</span>
+            <strong>Aperitive</strong>
+            <p id="count-Aperitive" class="table-subtitle" style="margin-top: 5px;">0 produse</p>
+        </article>
+        <article class="metric-card" style="cursor: pointer;" onclick="deschideCategorie('Feluri Principale')">
+            <span><i class="fa-solid fa-bell-concierge"></i> Categorie</span>
+            <strong>Feluri Principale</strong>
+            <p id="count-Feluri-Principale" class="table-subtitle" style="margin-top: 5px;">0 produse</p>
+        </article>
+        <article class="metric-card" style="cursor: pointer;" onclick="deschideCategorie('Bauturi Spirtoase')">
+            <span><i class="fa-solid fa-wine-glass"></i> Categorie</span>
+            <strong>Bauturi Spirtoase</strong>
+            <p id="count-Bauturi-Spirtoase" class="table-subtitle" style="margin-top: 5px;">0 produse</p>
+        </article>
+        <article class="metric-card" style="cursor: pointer;" onclick="deschideCategorie('Bauturi Nespirtoase')">
+            <span><i class="fa-solid fa-glass-water"></i> Categorie</span>
+            <strong>Bauturi Nespirtoase</strong>
+            <p id="count-Bauturi-Nespirtoase" class="table-subtitle" style="margin-top: 5px;">0 produse</p>
+        </article>
     </section>
 
-    <section id="produse-view" style="display: none;">
-        <button class="btn-back" onclick="inapoiLaCategorii()">
-            <i class="fa-solid fa-chevron-left"></i> Înapoi la categorii
-        </button>
-        <h2 id="titlu-categorie" class="categorie-title">Nume Categorie</h2>
-
-        <div id="produse-grid" class="produse-grid">
+    <section class="manager-panel" id="produse-view" hidden>
+        <div class="panel-header">
+            <div class="panel-heading">
+                <h2 id="titlu-categorie">Nume Categorie</h2>
+            </div>
+            <div class="panel-actions">
+                <button class="btn btn-secondary" onclick="inapoiLaCategorii()">
+                    <i class="fa-solid fa-chevron-left"></i> Inapoi
+                </button>
+            </div>
+        </div>
+        <div id="produse-grid" class="products-grid">
         </div>
     </section>
-
 </main>
 
-<div id="detalii-modal" class="modal">
-    <div class="modal-content">
-        <button class="close-btn" onclick="inchideModal()"><i class="fa-solid fa-xmark"></i></button>
-        <h3 id="modal-titlu">Nume Produs</h3>
+<div class="modal" id="detalii-modal" hidden role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-head">
+            <h3 id="modal-titlu">Nume Produs</h3>
+            <button class="icon-btn" onclick="inchideModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
         <div class="modal-body">
-            <p><strong>Ingrediente:</strong> <span id="modal-ingrediente">N/A</span></p>
-            <div id="modal-tags" class="tags-container">
+            <div class="detail-item">
+                <span>Ingrediente</span>
+                <strong id="modal-ingrediente">N/A</strong>
             </div>
+            <div id="modal-tags" class="tags" style="margin-top: 15px;"></div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="inchideModal()">Inchide</button>
         </div>
     </div>
 </div>
