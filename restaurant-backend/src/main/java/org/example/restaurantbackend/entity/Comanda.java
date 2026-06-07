@@ -2,7 +2,7 @@ package org.example.restaurantbackend.entity;
 
 import org.example.restaurantbackend.entity.enums.Status;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Data; // Asigură-te că ai importat asta
 
 import java.util.List;
 
@@ -26,4 +26,8 @@ public class Comanda {
     private double total;
 
     private Integer nrChitanta;
+
+    public void setNrChitanta(Integer nrChitanta) {
+        this.nrChitanta = nrChitanta;
+    }
 }
