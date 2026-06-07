@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function inicializeazaUtilizator() {
     let currentUser = localStorage.getItem('currentUser');
     
-    if (!currentUser) {
+    if (!currentUser || JSON.parse(currentUser).role !== 'CLIENT') {
         const mockUser = {
             id: 99,
-            username: "Dragana Mihaela",
-            email: "dragana.mihaela@client.com",
+            username: "Maria",
+            email: "maria@client.com",
             role: "CLIENT"
         };
         localStorage.setItem('currentUser', JSON.stringify(mockUser));
@@ -25,9 +25,9 @@ function inicializeazaUtilizator() {
     let displayName = user.username;
     let displayEmail = user.email;
     
-    if (displayName && (displayName.toLowerCase().includes('bianca') || displayName.toLowerCase().includes('lincă') || displayName.toLowerCase().includes('linca'))) {
-        displayName = 'Dragana Mihaela';
-        displayEmail = 'dragana.mihaela@client.com';
+    if (displayName && (displayName.toLowerCase().includes('bianca') || displayName.toLowerCase().includes('lincă') || displayName.toLowerCase().includes('linca') || displayName.toLowerCase().includes('chelner'))) {
+        displayName = 'Maria';
+        displayEmail = 'maria@client.com';
     }
     
     document.getElementById('user-display-name').textContent = displayName;
