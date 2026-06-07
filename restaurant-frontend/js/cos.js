@@ -98,8 +98,19 @@ function plaseazaComanda() {
     }).then(response => {
         if (!response.ok) throw new Error('Eroare');
         return response.json();
-    }).then(() => {
+    }).then(comanda => {
         alert('Comanda a fost plasată cu succes!');
+        
+        try {
+            let ids = JSON.parse(localStorage.getItem('clientOrderIds') || '[]');
+            if (comanda && comanda.id) {
+                ids.push(comanda.id);
+                localStorage.setItem('clientOrderIds', JSON.stringify(ids));
+            }
+        } catch (e) {
+            console.error('Eroare la salvarea ID-ului comenzii în localStorage:', e);
+        }
+        
         incarcaCos();
     });
 }

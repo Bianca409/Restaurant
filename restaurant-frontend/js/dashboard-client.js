@@ -25,9 +25,8 @@ function inicializeazaUtilizator() {
     let displayName = user.username;
     let displayEmail = user.email;
     
-    if (displayName && (displayName.toLowerCase().includes('bianca') || displayName.toLowerCase().includes('lincă') || displayName.toLowerCase().includes('linca') || displayName.toLowerCase().includes('chelner'))) {
-        displayName = 'Maria';
-        displayEmail = 'maria@client.com';
+    if (user && user.id === 99) {
+        document.getElementById('mock-login-banner').style.display = 'block';
     }
     
     document.getElementById('user-display-name').textContent = displayName;

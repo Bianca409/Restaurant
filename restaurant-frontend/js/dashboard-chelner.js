@@ -22,11 +22,6 @@ function inicializeazaUtilizator() {
     let displayName = user.username;
     let displayEmail = user.email;
     
-    if (displayName && (displayName.toLowerCase().includes('bianca') || displayName.toLowerCase().includes('lincă') || displayName.toLowerCase().includes('linca'))) {
-        displayName = 'Andrei Popescu';
-        displayEmail = 'andrei.popescu@restaurant.com';
-    }
-    
     document.getElementById('user-display-name').textContent = displayName;
     document.getElementById('profile-username').textContent = displayName;
     document.getElementById('profile-email').textContent = displayEmail;

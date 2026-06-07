@@ -30,8 +30,8 @@ function inicializeazaUtilizator() {
     const user = JSON.parse(currentUser);
     let displayName = user.username;
     
-    if (displayName && (displayName.toLowerCase().includes('bianca') || displayName.toLowerCase().includes('lincă') || displayName.toLowerCase().includes('linca'))) {
-        displayName = 'Mihai Popescu';
+    if (user && user.username === "personal_bucatarie") {
+        document.getElementById('mock-login-banner').style.display = 'block';
     }
     
     document.getElementById('user-display-name').textContent = displayName;
