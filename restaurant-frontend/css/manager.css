@@ -123,7 +123,8 @@ a {
 .side-tab:hover,
 .side-link:hover,
 .logout-link:hover,
-.side-tab.active {
+.side-tab.active,
+.side-link.active {
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
 }

@@ -5,52 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Client - La Bucătărie</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/manager.css">
+    <style>
+        /* CSS patches for dashboard-client.js compatibility and premium design */
+        .toast-success { background: #157347 !important; }
+        .toast-error { background: #b42318 !important; }
+        .toast-info { background: #1e2530 !important; }
+        .toast.show { opacity: 1 !important; transform: translateY(0) !important; pointer-events: auto !important; }
+        
+        /* Badge mapping to match premium styles */
+        .badge-pending { background: var(--amber-soft) !important; color: #9a5b00 !important; }
+        .badge-preparing { background: #ffedd5 !important; color: #ea580c !important; }
+        .badge-served { background: #e7f8ed !important; color: #177245 !important; }
+        .badge-cash { background: #e8efff !important; color: #3451a4 !important; }
+        
+        /* Dashboard layout grid inside shell */
+        .client-dashboard-grid {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 24px;
+        }
+        @media (max-width: 1100px) {
+            .client-dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-    <nav class="navbar">
-        <div class="logo" onclick="window.location.href='index.html'">
-            <i class="fa-solid fa-utensils"></i>
-            <span>La Bucătărie</span>
-        </div>
-        <div class="nav-links">
-            <a href="index.html">Meniu</a>
-            <a href="cos.html"><i class="fa-solid fa-cart-shopping"></i> Coș</a>
-            <div class="user-info" id="navbar-user">
-                <i class="fa-solid fa-user"></i>
-                <span id="user-display-name">Client</span>
+        /* Pulsing dot animation for preparing status */
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: currentColor;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+
+        /* Profile details card inside sidebar/columns */
+        .client-profile-card {
+            text-align: center;
+            padding: 24px 16px;
+        }
+        .client-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--amber-soft);
+            color: var(--amber);
+            font-size: 32px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 16px;
+            border: 2px solid #fde68a;
+        }
+    </style>
+</head>
+<body class="manager-app">
+    <aside class="manager-sidebar">
+        <div class="brand-block">
+            <div class="brand-mark">
+                <i class="fa-solid fa-utensils"></i>
             </div>
-            <button class="btn-logout" onclick="logout()">
+            <div class="brand-copy">
+                <strong>La Bucatarie</strong>
+                <span>Client</span>
+            </div>
+        </div>
+
+        <nav class="side-nav" aria-label="Navigare client">
+            <a class="side-link active" href="dashboard-client.html">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Comenzile mele</span>
+            </a>
+            <a class="side-link" href="index.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Meniu public</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-link" type="button" onclick="logout()">
                 <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Deconectare</span>
             </button>
         </div>
-    </nav>
+    </aside>
 
-    <main class="dashboard-container">
-        <div class="dashboard-header">
-            <div>
+    <main class="manager-shell">
+        <header class="manager-topbar">
+            <div class="page-title">
                 <h1 id="welcome-message"><i class="fa-solid fa-circle-user"></i> Salutare, Client!</h1>
                 <p>Urmărește statusul comenzilor tale și vezi istoricul preparatelor savurate.</p>
             </div>
-            <button class="btn btn-primary" onclick="window.location.href='index.html'">
-                <i class="fa-solid fa-plus"></i> Comandă Ceva Nou
-            </button>
-        </div>
+            <div class="manager-user">
+                <div class="user-avatar" style="background: var(--amber-soft); color: var(--amber);">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <span id="user-display-name">Client</span>
+            </div>
+        </header>
 
         <!-- Mock Login Banner if no user is set -->
-        <div id="mock-login-banner" class="dash-card" style="display: none; background: #ffedd5; border: 1px solid #fed7aa; color: #c2410c;">
-            <p><strong><i class="fa-solid fa-circle-info"></i> Mod Previzualizare:</strong> Nu ești autentificat. Am creat un cont temporar de <strong>Client</strong> pentru tine. (Autentificarea va fi disponibilă în curând prin colegii noștri!).</p>
+        <div id="mock-login-banner" class="manager-panel" style="display: none; background: #fffbeb; border: 1px solid #fde68a; color: #b45309; padding: 16px; margin: 20px 0 0; border-radius: 8px;">
+            <p style="margin: 0; font-size: 14px;"><strong style="font-weight: 800;"><i class="fa-solid fa-circle-info"></i> Mod Previzualizare:</strong> Nu ești autentificat. Am generat un cont temporar de client pentru tine.</p>
         </div>
 
-        <div class="dashboard-grid">
-            <!-- Left side: Orders -->
-            <div>
+        <section class="metrics-grid" aria-label="Statistici comenzi" style="margin-top: 24px;">
+            <article class="metric-card">
+                <span><i class="fa-solid fa-clock-rotate-left"></i>Comenzi Active</span>
+                <strong id="stat-active-count">0</strong>
+            </article>
+            <article class="metric-card">
+                <span><i class="fa-solid fa-receipt"></i>Total Comenzi</span>
+                <strong id="stat-total-count">0</strong>
+            </article>
+        </section>
+
+        <div class="client-dashboard-grid">
+            <!-- Left Side: Tables -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
                 <!-- Active Orders -->
-                <div class="dash-card">
-                    <h2><i class="fa-solid fa-clock-rotate-left"></i> Comenzi Active</h2>
-                    <div class="table-responsive">
-                        <table class="dash-table" id="active-orders-table">
+                <section class="manager-panel">
+                    <div class="panel-header">
+                        <div class="panel-heading">
+                            <h2>Comenzi Active</h2>
+                            <p>Preparate aflate în curs de pregătire.</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Comandă nouă</span>
+                        </button>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="manager-table" id="active-orders-table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -62,20 +155,28 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td colspan="5" style="text-align: center; color: #a0aec0; padding: 30px;">
-                                        Nu ai nicio comandă activă în acest moment.
+                                    <td colspan="5">
+                                        <div class="empty-state">
+                                            <i class="fa-solid fa-spinner"></i>
+                                            Se încarcă comenzile...
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </section>
 
                 <!-- Order History -->
-                <div class="dash-card">
-                    <h2><i class="fa-solid fa-receipt"></i> Istoric Comenzi</h2>
-                    <div class="table-responsive">
-                        <table class="dash-table" id="history-orders-table">
+                <section class="manager-panel">
+                    <div class="panel-header">
+                        <div class="panel-heading">
+                            <h2>Istoric Comenzi</h2>
+                            <p>Toate comenzile finalizate în trecut.</p>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="manager-table" id="history-orders-table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -88,54 +189,47 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td colspan="6" style="text-align: center; color: #a0aec0; padding: 30px;">
-                                        Nu s-au găsit comenzi finalizate în istoric.
+                                    <td colspan="6">
+                                        <div class="empty-state">
+                                            <i class="fa-solid fa-receipt"></i>
+                                            Nicio comandă în istoric.
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </section>
             </div>
 
-            <!-- Right side: Profile Info -->
-            <div>
-                <div class="dash-card">
-                    <div class="profile-card">
-                        <div class="profile-avatar">
-                            <i class="fa-solid fa-circle-user"></i>
-                        </div>
-                        <h3 class="profile-name" id="profile-username">Dragana Mihaela</h3>
-                        <p class="profile-role" id="profile-role">Client Fidel</p>
-                        <p id="profile-email" style="color: #718096; font-size: 14px; margin-bottom: 20px;">dragana.mihaela@client.com</p>
-                        
-                        <div class="profile-stat">
-                            <div class="stat-item">
-                                <h4 id="stat-active-count">0</h4>
-                                <p>Active</p>
-                            </div>
-                            <div class="stat-item">
-                                <h4 id="stat-total-count">0</h4>
-                                <p>Total Comenzi</p>
-                            </div>
-                        </div>
+            <!-- Right Side: Profile & recommendation -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <!-- Profile -->
+                <section class="manager-panel client-profile-card">
+                    <div class="client-avatar">
+                        <i class="fa-solid fa-circle-user"></i>
                     </div>
-                </div>
+                    <h3 class="table-title" id="profile-username" style="font-size: 18px;">Dragana Mihaela</h3>
+                    <span class="badge staff" id="profile-role" style="margin: 8px auto 12px; display: inline-flex;">Client Fidel</span>
+                    <p id="profile-email" style="color: var(--muted); font-size: 13px; margin: 0 0 16px;">dragana.mihaela@client.com</p>
+                </section>
 
-                <div class="dash-card" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a;">
-                    <h3 style="color: #b45309; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-award"></i> Recomandarea Bucătarului
+                <!-- Recommendation -->
+                <section class="manager-panel" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border-color: #fde68a; padding: 20px;">
+                    <h3 style="color: var(--amber); font-size: 16px; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; font-weight: 800;">
+                        <i class="fa-solid fa-award"></i>
+                        <span>Recomandarea Bucătarului</span>
                     </h3>
-                    <p style="font-size: 14px; color: #92400e; line-height: 1.5;">
+                    <p style="font-size: 14px; color: #92400e; line-height: 1.5; margin: 0;">
                         Încearcă noile noastre <strong>Bruschete cu pesto și somon</strong>! Proaspete și perfecte ca aperitiv.
                     </p>
-                </div>
+                </section>
             </div>
         </div>
     </main>
 
     <!-- Toast Notification -->
-    <div id="toast" class="toast">
+    <div id="toast" class="toast" role="status" aria-live="polite">
         <span id="toast-icon"></span>
         <span id="toast-message">Mesaj notificare</span>
     </div>

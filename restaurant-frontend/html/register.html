@@ -3,57 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Înregistrare - La Bucătărie</title>
+    <title>Înregistrare - La Bucatarie</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="../css/manager.css">
 </head>
-<body>
-
-    <nav class="navbar">
-        <div class="logo">
-            <i class="fa-solid fa-hat-chef"></i> <i class="fa-solid fa-utensils"></i>
-            <span>La Bucătărie</span>
-        </div>
-        <div class="nav-links">
-            <a href="index.html">Meniu</a>
-            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
-            <a href="login.html"><i class="fa-solid fa-arrow-right-to-bracket"></i> Autentificare</a>
-        </div>
-    </nav>
-
-    <main class="container">
-        <div class="card">
-            <div class="card-header">
-                <i class="fa-solid fa-user-plus icon-title"></i>
-                <h2>Înregistrare</h2>
+<body class="login-page">
+    <section class="login-panel">
+        <div class="login-card">
+            <div class="login-brand">
+                <div class="brand-mark">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <div class="brand-copy">
+                    <strong>La Bucatarie</strong>
+                    <span>Restaurant management system</span>
+                </div>
             </div>
-            
-            <form id="registerForm">
-                <div class="input-group">
+
+            <h1>Înregistrare</h1>
+            <p>Creează un cont nou pentru a putea plasa comenzi și vizualiza istoricul.</p>
+
+            <form id="registerForm" class="login-form">
+                <div class="field">
                     <label for="username">Nume de utilizator</label>
-                    <input type="text" id="username" name="username" placeholder="ex: ion_popescu" required>
+                    <input id="username" name="username" type="text" placeholder="ex: ion_popescu" required>
                 </div>
-                
-                <div class="input-group">
+
+                <div class="field">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="email@exemplu.com" required>
+                    <input id="email" name="email" type="email" placeholder="email@exemplu.com" required>
                 </div>
-                
-                <div class="input-group">
+
+                <div class="field">
                     <label for="parola">Parolă</label>
-                    <input type="password" id="parola" name="parola" placeholder="parolă" required>
+                    <input id="parola" name="parola" type="password" placeholder="parolă" required>
                 </div>
-                
-                <button type="submit" class="btn-submit">Înregistrare</button>
+
+                <p class="login-error" id="mesajRaspuns" role="alert" style="min-height: 20px; font-size: 13px; font-weight: 700; margin: 0;"></p>
+
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Înregistrare</span>
+                </button>
             </form>
 
-            <p id="mesajRaspuns" class="form-message"></p>
-
-            <div class="card-footer">
-                <p>Ai deja cont? <a href="login.html">Autentifică-te aici.</a></p>
+            <div style="margin-top: 24px; text-align: center; border-top: 1px solid var(--line); padding-top: 20px;">
+                <p style="color: var(--muted); font-size: 14px; margin-bottom: 12px;">Ai deja cont?</p>
+                <a href="login.html" class="btn btn-secondary" style="display: inline-flex; width: 100%;">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span>Autentificare</span>
+                </a>
             </div>
         </div>
-    </main>
+    </section>
+
+    <section class="login-aside" aria-hidden="true">
+        <div class="login-aside-content">
+            <h2>Comenzi, echipa și meniu într-un singur loc.</h2>
+            <p>O interfață clară pentru ture aglomerate, decizii rapide și operațiuni fără fricțiune.</p>
+        </div>
+    </section>
 
     <script src="../js/register.js"></script>
 </body>

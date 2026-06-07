@@ -5,76 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adăugare Produs - La Bucătărie</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="../css/manager.css">
 </head>
-<body>
-
-    <nav class="navbar">
-        <div class="logo">
-            <i class="fa-solid fa-utensils"></i>
-            <span>La Bucătărie - Admin</span>
-        </div>
-        <div class="nav-links">
-            <a href="dashboard-manager.html">Dashboard</a>
-            <a href="adaugare-angajat.html">Angajați Noi</a>
-            <a href="index.html">Deconectare</a>
-        </div>
-    </nav>
-
-    <main class="container">
-        <div class="card">
-            <div class="card-header">
-                <i class="fa-solid fa-plate-wheat icon-title"></i>
-                <h2>Adăugare Produs Nou</h2>
+<body class="manager-app">
+    <aside class="manager-sidebar">
+        <div class="brand-block">
+            <div class="brand-mark">
+                <i class="fa-solid fa-utensils"></i>
             </div>
-            
-            <form id="addProductForm">
-                <div class="input-group">
-                    <label for="categorie">Categorie Produs</label>
-                    <select id="categorie" name="categorie" required>
-                        <option value="APERITIV">Aperitiv</option>
-                        <option value="PRINCIPAL">Fel Principal</option>
-                        <option value="BAUTURA">Băutură</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label for="nume">Nume Produs</label>
-                    <input type="text" id="nume" name="nume" placeholder="ex: Supă Cremă de Roșii" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="pret">Preț (RON)</label>
-                    <input type="number" id="pret" name="pret" step="0.01" placeholder="0.00" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="ingrediente">Ingrediente (separate prin virgulă)</label>
-                    <input type="text" id="ingrediente" name="ingrediente" placeholder="roșii, busuioc, crutoane">
-                </div>
-
-                <div class="checkbox-container">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="vegetarian" name="vegetarian">
-                        <label for="vegetarian">Vegetarian</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="picant" name="picant">
-                        <label for="picant">Picant</label>
-                    </div>
-                    <div id="spirtoasa-div" class="checkbox-group" style="display: none;">
-                        <input type="checkbox" id="spirtoasa" name="spirtoasa">
-                        <label for="spirtoasa">Băutură Spirtoasă</label>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn-submit">Salvează în Meniu</button>
-            </form>
-
-            <p id="mesajRaspuns" class="form-message"></p>
+            <div class="brand-copy">
+                <strong>La Bucatarie</strong>
+                <span>Manager</span>
+            </div>
         </div>
+
+        <nav class="side-nav" aria-label="Navigare manager">
+            <a class="side-link" href="dashboard-manager.html">
+                <i class="fa-solid fa-users-gear"></i>
+                <span>Angajati</span>
+            </a>
+            <a class="side-link" href="dashboard-manager.html">
+                <i class="fa-solid fa-plate-wheat"></i>
+                <span>Produse</span>
+            </a>
+            <a class="side-link" href="adaugare-angajat.html">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Angajat nou</span>
+            </a>
+            <a class="side-link active" href="adaugare-produs.html">
+                <i class="fa-solid fa-square-plus"></i>
+                <span>Produs nou</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="side-link" href="index.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Meniu public</span>
+            </a>
+            <button class="logout-link" type="button" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Deconectare</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="manager-shell">
+        <header class="manager-topbar">
+            <div class="page-title">
+                <h1>Adăugare Produs Nou</h1>
+                <p>Adaugă preparate culinare și băuturi noi în meniul restaurantului.</p>
+            </div>
+            <div class="manager-user">
+                <div class="user-avatar">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <span id="managerName">Manager</span>
+            </div>
+        </header>
+
+        <section class="manager-panel" style="margin: 24px auto 0; padding: 24px; max-width: 700px;">
+            <div class="panel-heading" style="margin-bottom: 24px;">
+                <h2>Detalii preparat sau băutură</h2>
+                <p>Specifică detaliile și ingredientele noului produs din meniu.</p>
+            </div>
+
+            <form id="addProductForm" class="login-form">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="categorie">Categorie Produs</label>
+                        <select id="categorie" name="categorie" required>
+                            <option value="APERITIV">Aperitiv</option>
+                            <option value="PRINCIPAL">Fel Principal</option>
+                            <option value="BAUTURA">Băutură</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="nume">Nume Produs</label>
+                        <input type="text" id="nume" name="nume" placeholder="ex: Supă Cremă de Roșii" required>
+                    </div>
+                    
+                    <div class="field full">
+                        <label for="pret">Preț (RON)</label>
+                        <input type="number" id="pret" name="pret" step="0.01" placeholder="0.00" required>
+                    </div>
+
+                    <div class="field full">
+                        <label for="ingrediente">Ingrediente (separate prin virgulă)</label>
+                        <textarea id="ingrediente" name="ingrediente" placeholder="roșii, busuioc, crutoane"></textarea>
+                    </div>
+
+                    <div class="field full">
+                        <label style="margin-bottom: 10px;">Marcaje Produs</label>
+                        <div class="check-row">
+                            <label class="check-pill">
+                                <input type="checkbox" id="vegetarian" name="vegetarian">
+                                <span>Vegetarian</span>
+                            </label>
+                            <label class="check-pill">
+                                <input type="checkbox" id="picant" name="picant">
+                                <span>Picant</span>
+                            </label>
+                            <label class="check-pill" id="spirtoasa-div" style="display: none;">
+                                <input type="checkbox" id="spirtoasa" name="spirtoasa">
+                                <span>Băutură Spirtoasă</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <p id="mesajRaspuns" class="login-error" style="min-height: 20px; font-weight: 700; margin: 10px 0 0;"></p>
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 15px;">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>Salvează în Meniu</span>
+                </button>
+            </form>
+        </section>
     </main>
 
     <script src="../js/adaugare-produs.js"></script>
+    <script>
+        (function() {
+            const rawUser = localStorage.getItem('currentUser');
+            if (!rawUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            try {
+                const user = JSON.parse(rawUser);
+                const role = String(user.role || user.rol || '').toUpperCase();
+                if (role !== 'MANAGER') {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                document.getElementById('managerName').textContent = user.username || 'Manager';
+            } catch {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            }
+            
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            });
+        })();
+    </script>
 </body>
 </html>

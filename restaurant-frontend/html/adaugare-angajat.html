@@ -5,60 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adăugare Angajat - La Bucătărie</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="../css/manager.css">
 </head>
-<body>
-
-    <nav class="navbar">
-        <div class="logo">
-            <i class="fa-solid fa-utensils"></i>
-            <span>La Bucătărie - Admin</span>
-        </div>
-        <div class="nav-links">
-            <a href="dashboard-manager.html">Dashboard</a>
-            <a href="adaugare-produs.html">Produse Noi</a>
-            <a href="index.html">Deconectare</a>
-        </div>
-    </nav>
-
-    <main class="container">
-        <div class="card">
-            <div class="card-header">
-                <i class="fa-solid fa-user-tie icon-title"></i>
-                <h2>Adăugare Angajat</h2>
+<body class="manager-app">
+    <aside class="manager-sidebar">
+        <div class="brand-block">
+            <div class="brand-mark">
+                <i class="fa-solid fa-utensils"></i>
             </div>
-            
-            <form id="addEmployeeForm">
-                <div class="input-group">
+            <div class="brand-copy">
+                <strong>La Bucatarie</strong>
+                <span>Manager</span>
+            </div>
+        </div>
+
+        <nav class="side-nav" aria-label="Navigare manager">
+            <a class="side-link" href="dashboard-manager.html">
+                <i class="fa-solid fa-users-gear"></i>
+                <span>Angajati</span>
+            </a>
+            <a class="side-link" href="dashboard-manager.html">
+                <i class="fa-solid fa-plate-wheat"></i>
+                <span>Produse</span>
+            </a>
+            <a class="side-link active" href="adaugare-angajat.html">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Angajat nou</span>
+            </a>
+            <a class="side-link" href="adaugare-produs.html">
+                <i class="fa-solid fa-square-plus"></i>
+                <span>Produs nou</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="side-link" href="index.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Meniu public</span>
+            </a>
+            <button class="logout-link" type="button" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Deconectare</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="manager-shell">
+        <header class="manager-topbar">
+            <div class="page-title">
+                <h1>Adăugare Angajat Nou</h1>
+                <p>Creează conturi pentru chelneri și personalul de bucătărie.</p>
+            </div>
+            <div class="manager-user">
+                <div class="user-avatar">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <span id="managerName">Manager</span>
+            </div>
+        </header>
+
+        <section class="manager-panel" style="margin: 24px auto 0; padding: 24px; max-width: 600px;">
+            <div class="panel-heading" style="margin-bottom: 24px;">
+                <h2>Date cont angajat</h2>
+                <p>Toate câmpurile sunt obligatorii.</p>
+            </div>
+
+            <form id="addEmployeeForm" class="login-form">
+                <div class="field">
                     <label for="tip">Tip Angajat</label>
-                    <select id="tip" name="tip" required style="padding: 12px; border-radius: 8px; border: 1px solid #cbd5e0;">
+                    <select id="tip" name="tip" required>
                         <option value="PERSONAL">Personal Bucătărie</option>
                         <option value="CHELNER">Chelner</option>
                     </select>
                 </div>
 
-                <div class="input-group">
+                <div class="field">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="ex: chelner_andrei" required>
                 </div>
                 
-                <div class="input-group">
+                <div class="field">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="email@restaurant.com" required>
                 </div>
                 
-                <div class="input-group">
+                <div class="field">
                     <label for="parola">Parolă</label>
                     <input type="password" id="parola" name="parola" placeholder="parolă angajat" required>
                 </div>
                 
-                <button type="submit" class="btn-submit">Salvează Angajat</button>
-            </form>
+                <p id="mesajRaspuns" class="login-error" style="min-height: 20px; font-weight: 700; margin: 0;"></p>
 
-            <p id="mesajRaspuns" class="form-message"></p>
-        </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Salvează Angajat</span>
+                </button>
+            </form>
+        </section>
     </main>
 
     <script src="../js/adaugare-angajat.js"></script>
+    <script>
+        (function() {
+            const rawUser = localStorage.getItem('currentUser');
+            if (!rawUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            try {
+                const user = JSON.parse(rawUser);
+                const role = String(user.role || user.rol || '').toUpperCase();
+                if (role !== 'MANAGER') {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                document.getElementById('managerName').textContent = user.username || 'Manager';
+            } catch {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            }
+            
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            });
+        })();
+    </script>
 </body>
 </html>
