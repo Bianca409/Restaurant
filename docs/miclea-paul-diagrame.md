@@ -1,5 +1,35 @@
 # Diagrame Miclea Paul
 
+## Diagrama de secventa 1
+
+```mermaid
+sequenceDiagram
+    actor Utilizator
+    participant Login as Frontend login.js
+    participant AuthController
+    participant AuthService
+    participant UtilizatorRepository
+    participant Dashboard as Dashboard rol
+
+    Utilizator->>Login: Completeaza username/email si parola
+    Login->>AuthController: POST /api/auth/login
+    AuthController->>AuthService: login(username, parola)
+    AuthService->>UtilizatorRepository: findByUsername(username)
+    UtilizatorRepository-->>AuthService: Optional<Utilizator>
+
+    alt credentiale invalide
+        AuthService-->>AuthController: eroare autentificare
+        AuthController-->>Login: 401 + mesaj eroare
+        Login-->>Utilizator: Afiseaza eroarea pe formular
+    else credentiale valide
+        AuthService-->>AuthController: date utilizator + rol
+        AuthController-->>Login: 200 OK
+        Login->>Login: Salveaza currentUser in localStorage
+        Login->>Dashboard: Redirectioneaza dupa rol
+        Dashboard-->>Utilizator: Afiseaza pagina potrivita
+    end
+```
+
 ## Diagrama de activitate 1
 
 ```mermaid

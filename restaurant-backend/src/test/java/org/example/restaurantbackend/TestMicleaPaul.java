@@ -28,7 +28,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RestaurantBackendApplicationTests {
+class TestMicleaPaul {
 
     @Mock
     private ProdusService produsService;
